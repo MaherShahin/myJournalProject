@@ -19,36 +19,12 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between mb-3 sticky-top">
-    <a class="navbar-brand mx-3" href="#" >JournalApp</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" >
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    
-    <div class="collapse navbar-collapse  justify-content-end" id="navbarToggler">
-        <ul class="navbar-nav nav align-content-end">
-            <li class="nav-item nav-link active">
-                <a class="nav-link mx-2" href="/userPortal">User Portal </a>
-            </li>
-            <li class="nav-item nav-link active">
-                <a class="nav-link mx-2" href="/JournalEntries">All Entries</a>
-            </li>
-            <li class="nav-item nav-link active">
-                <a class="nav-link mx-2" href="#" onclick="handleLogout()">Logout</a>
-            </li>
-        </ul>
-    </div>
-
-</nav>
-
-
-<h1>Welcome to the home page! Register or Login to move forward</h1>
-
-
-<a href="/login"> Login </a>
+<div class="container d-flex text-center flex-column my-5">
+<h1 class="mx-5 my-5">Welcome to the home page!<br> Register or Login to move forward</h1>
+ <a class="btn btn-dark w-50 align-self-center" href="/login"> Login </a>
 <br>
-<a href="/register"> Register </a>
-
+<a class="btn btn-dark w-50 align-self-center" href="/register"> Register </a>
+</div>
 
 </body>
 </html>
