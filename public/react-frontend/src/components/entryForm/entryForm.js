@@ -16,6 +16,8 @@ export default class EntryForm extends Component {
       entry: "",
       isLoading: false,
       submitted: false,
+      error: false,
+      errorMessage: "",
     };
   }
 
@@ -47,6 +49,11 @@ export default class EntryForm extends Component {
         }
       })
       .catch((err) => {
+        this.setState({
+          isLoading: false,
+          error: true,
+          errorMessage: "Error: " + err,
+        });
         console.log(err);
       }
     );
@@ -100,6 +107,9 @@ export default class EntryForm extends Component {
               >
                 Submit
               </Button>
+              {this.state.error && (
+                <p className="text-danger">{this.state.errorMessage}</p>
+              )}             
             </div>
           </Form>
         </div>

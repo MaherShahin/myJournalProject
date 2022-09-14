@@ -129,7 +129,7 @@ router.post("/addEntry", auth.required, async (req, res, next) => {
     entry.save();
     res.status(200).json({ message: "Entry added" });
   } else {
-    res.status(400).json({ message: "Invalid token" });
+    res.status(400).json({ message: "Invalid token - authentication wasnt successfull" });
     console.log("JWT is invalid");
   }
 });
