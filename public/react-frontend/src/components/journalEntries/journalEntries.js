@@ -36,7 +36,7 @@ export default class JournalEntries extends Component {
 
   closeModal = () => this.setState({ isViewingEntry: false });
 
-  // getJournalEntries() {
+  //async getJournalEntries() {
   //   fetch("http://localhost:8080/journalEntries")
   //     .then((response) => response.json())
   //     .then((data) => {

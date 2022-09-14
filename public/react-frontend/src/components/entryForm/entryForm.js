@@ -38,7 +38,7 @@ export default class EntryForm extends Component {
         <Navbar />
         <div className="container">
           <h1> This is the entry form </h1>
-          <Form onSubmit={this.handleSubmit}>
+          <Form onSubmit={()=>this.handleSubmit}>
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Title</Form.Label>
               <Form.Control type="text" placeholder="What will the title of this entry be?" />

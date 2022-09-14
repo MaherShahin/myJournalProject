@@ -63,11 +63,7 @@ userDataScheme.methods.toAuthJSON = function () {
 };
 
 var userData = mongoose.model("userData", userDataScheme, "users");
-var journalEntry = mongoose.model(
-  "journalEntry",
-  journalEntryScheme,
-  "journalEntries"
-);
+var journalEntry = mongoose.model("journalEntry", journalEntryScheme, "entries");
 
 module.exports = {
   userData,

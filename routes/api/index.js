@@ -18,17 +18,17 @@ function getDateNow() {
   );
 }
 
-router.get("/", auth.optional, (req, res) => {
-  res.render("index");
-});
+// router.get("/", auth.optional, (req, res) => {
+//   res.render("index");
+// });
 
-router.get("/register", auth.optional, (req, res) => {
-  res.render("register");
-});
+// router.get("/register", auth.optional, (req, res) => {
+//   res.render("register");
+// });
 
-router.get("/login", auth.optional, (req, res) => {
-  res.render("login");
-});
+// router.get("/login", auth.optional, (req, res) => {
+//   res.render("login");
+// });
 
 router.post("/register", auth.optional, async (req, res, next) => {
   // Check to see if the user already exists
@@ -53,6 +53,7 @@ router.post("/register", auth.optional, async (req, res, next) => {
     }
   }
 });
+// Survivor
 
 router.post("/login", auth.optional, async (req, res, next) => {
   const user = await Model.userData.findOne({ username: req.body.username });
@@ -80,12 +81,14 @@ router.post("/login", auth.optional, async (req, res, next) => {
     }
   })(req, res, next);
 });
+//Survivor
 
 router.post("/logout", auth.required, (req, res) => {
   res.clearCookie("userJSON");
   req.session.destroy();
   res.redirect("/");
 });
+//Survivor 
 
 //get the journal entries for the user
 router.get("/journalEntries", auth.required, async (req, res, next) => {
@@ -106,17 +109,18 @@ router.get("/journalEntries", auth.required, async (req, res, next) => {
     console.log("JWT is invalid");
   }
 });
+//Survivor with modifications
 
-router.get("/userPortal", auth.required, async (req, res, next) => {
-  const userJSON = req.cookies.userJSON;
-  const userDB = await Model.userData.findOne({ username: userJSON.username });
-  if (userDB.validateJWT(userJSON.token)) {
-    res.render("userPortal", { currentUser: userDB });
-  } else {
-    res.redirect("/login");
-    console.log("JWT is invalid");
-  }
-});
+// router.get("/userPortal", auth.required, async (req, res, next) => {
+//   const userJSON = req.cookies.userJSON;
+//   const userDB = await Model.userData.findOne({ username: userJSON.username });
+//   if (userDB.validateJWT(userJSON.token)) {
+//     res.render("userPortal", { currentUser: userDB });
+//   } else {
+//     res.redirect("/login");
+//     console.log("JWT is invalid");
+//   }
+// });
 
 router.post("/addEntry", auth.required, async (req, res, next) => {
   const userJSON = req.cookies.userJSON;
@@ -137,6 +141,7 @@ router.post("/addEntry", auth.required, async (req, res, next) => {
     console.log("JWT is invalid");
   }
 });
+//Survivor
 
 router.delete("/deleteEntry/:id", auth.required, async (req, res, next) => {
   const userJSON = req.cookies.userJSON;
@@ -150,18 +155,19 @@ router.delete("/deleteEntry/:id", auth.required, async (req, res, next) => {
     console.log("JWT is invalid");
   }
 });
+//Survivor
 
-router.get("/editEntry/:id", auth.required, async (req, res, next) => {
-  const userJSON = req.cookies.userJSON;
-  const userDB = await Model.userData.findOne({ username: userJSON.username });
-  if (userDB.validateJWT(userJSON.token)) {
-    const entry = await Model.journalEntry.findById(req.params.id);
-    res.render("editEntry", { entry: entry, currentUser: userDB });
-  } else {
-    res.redirect("/login");
-    console.log("JWT is invalid");
-  }
-});
+// router.get("/editEntry/:id", auth.required, async (req, res, next) => {
+//   const userJSON = req.cookies.userJSON;
+//   const userDB = await Model.userData.findOne({ username: userJSON.username });
+//   if (userDB.validateJWT(userJSON.token)) {
+//     const entry = await Model.journalEntry.findById(req.params.id);
+//     res.render("editEntry", { entry: entry, currentUser: userDB });
+//   } else {
+//     res.redirect("/login");
+//     console.log("JWT is invalid");
+//   }
+// });
 
 router.post("/editEntry/:id", auth.required, async (req, res, next) => {
   const userJSON = req.cookies.userJSON;
@@ -178,6 +184,7 @@ router.post("/editEntry/:id", auth.required, async (req, res, next) => {
     console.log("JWT is invalid");
   }
 });
+//Heavy refactoring needed
 
 
 module.exports = router;
