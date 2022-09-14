@@ -86,11 +86,12 @@ router.post("/login", auth.optional, async (req, res, next) => {
 // Refactored
 
 router.post("/logout", auth.required, (req, res) => {
+
   res.clearCookie("user");
   req.session.destroy();
   res.status(200).json({ message: "Logout successful" });
 });
- //TO-DO: Refactor
+  // Refactored
 
 //get the journal entries for the user
 router.get("/journalEntries", auth.required, async (req, res, next) => {

@@ -48,11 +48,17 @@ userDataScheme.methods.generateJWT = function () {
 
 userDataScheme.methods.validateJWT = function (token) {
   // Check that the JWT Token is valid
-  const decoded = jwt.verify(token, "secret");
-  if (!decoded) {
+  try {
+    const decoded = jwt.verify(token, "secret");
+    if (decoded.exp < Date.now()) {
+      return false;
+    }
+    return decoded.username === this.username;
+  }
+  catch (err) {
     return false;
   }
-  return true;
+  
 };
 
 userDataScheme.methods.toAuthJSON = function () {
