@@ -71,12 +71,7 @@ export default class JournalEntries extends Component {
 
   render() {
     if (this.state.isLoading) {
-      return (
-        <div>
-          <Navbar />
-          <Loading />
-        </div>
-      );
+      return <Loading />;
     }
     return (
       <div>

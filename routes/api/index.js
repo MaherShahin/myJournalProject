@@ -115,7 +115,7 @@ router.get("/journalEntries", auth.required, async (req, res, next) => {
 
 
 router.post("/addEntry", auth.required, async (req, res, next) => {
-  const userJSON = req.cookies.userJSON;
+  const userJSON = req.cookies.user;
   const userDB = await Model.userData.findOne({ username: userJSON.username });
 
   if (userDB.validateJWT(userJSON.token)) {
@@ -127,9 +127,9 @@ router.post("/addEntry", auth.required, async (req, res, next) => {
       updatedOn: getDateNow(),
     });
     entry.save();
-    res.redirect("/journalEntries");
+    res.status(200).json({ message: "Entry added" });
   } else {
-    res.redirect("/login");
+    res.status(400).json({ message: "Invalid token" });
     console.log("JWT is invalid");
   }
 });
