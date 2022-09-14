@@ -111,7 +111,7 @@ router.get("/journalEntries", auth.required, async (req, res, next) => {
     console.log("JWT is invalid");
   }
 });
-//Survivor with modifications
+//Refactored
 
 
 router.post("/addEntry", auth.required, async (req, res, next) => {
@@ -133,17 +133,17 @@ router.post("/addEntry", auth.required, async (req, res, next) => {
     console.log("JWT is invalid");
   }
 });
-//Survivor
+//TO DO
 
 router.delete("/deleteEntry/:id", auth.required, async (req, res, next) => {
-  const userJSON = req.cookies.userJSON;
+  const userJSON = req.cookies.user;
   const userDB = await Model.userData.findOne({ username: userJSON.username });
   if (userDB.validateJWT(userJSON.token)) {
     const entry = await Model.journalEntry.findById(req.params.id);
     entry.remove();
-    res.redirect("/journalEntries");
+    res.status(200).json({ message: "Entry deleted" });
   } else {
-    res.redirect("/login");
+    res.status(400).json({ message: "Invalid token" });
     console.log("JWT is invalid");
   }
 });

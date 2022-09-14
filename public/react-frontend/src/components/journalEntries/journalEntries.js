@@ -7,6 +7,7 @@ import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import JournalEntryModal from "../journalEntryModal/journalEntryModal";
 import { Modal } from "react-bootstrap";
+import Loading from "../loading/loading";
 
 export default class JournalEntries extends Component {
   constructor() {
@@ -15,16 +16,26 @@ export default class JournalEntries extends Component {
       entries: [],
       isViewingEntry: false,
       entryToBeViewed: null,
+      isLoading: true,
     };
   }
 
   async handleDelete(entry) {
-    // add something to stop user from accidentaly deleting
-    let newEntries = this.state.entries
-    delete newEntries[entry.id-1]
-    this.setState({
-      entries:newEntries
-    })
+    this.setState({ isLoading: true });
+    const response = await fetch(
+      "http://localhost:3001/deleteEntry/" + entry._id,
+      {
+        method: "DELETE",
+        headers: {
+          "Access-Control-Allow-Origin": "http://localhost:3000",
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+        credentials: "include",
+      }
+    );
+    const data = await response.json();
+    this.getJournalEntries();
   }
 
   async handleView(entry) {
@@ -37,27 +48,36 @@ export default class JournalEntries extends Component {
   closeModal = () => this.setState({ isViewingEntry: false });
 
   async getJournalEntries() {
-    
     const response = await fetch("http://localhost:3001/journalEntries", {
       method: "GET",
       headers: {
         "Access-Control-Allow-Origin": "http://localhost:3000",
         "Content-Type": "application/json",
-        },
-        withCredentials: true,
-        credentials: "include",
-        });
-        const data = await response.json();
-        this.setState({ entries: data.journalEntries });
+      },
+      withCredentials: true,
+      credentials: "include",
+    });
+    const data = await response.json();
+    this.setState({ entries: data.journalEntries, isLoading: false });
   }
-
 
   componentDidMount() {
     this.getJournalEntries();
   }
 
+  componentDidUpdate() {
+    this.getJournalEntries();
+  }
 
   render() {
+    if (this.state.isLoading) {
+      return (
+        <div>
+          <Navbar />
+          <Loading />
+        </div>
+      );
+    }
     return (
       <div>
         <Navbar />
