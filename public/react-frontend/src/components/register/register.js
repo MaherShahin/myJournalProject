@@ -32,7 +32,11 @@ export default class Register extends Component {
         this.setState({ success: true });
       } else {
         this.setState({ error: true });
-        this.setState({ errorMessage: res.message });
+        res = res.json();
+        res.then((data) => {
+          this.setState({ errorMessage: data.message });
+        }
+        );
       }
     });
   };
