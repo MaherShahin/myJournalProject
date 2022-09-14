@@ -104,7 +104,7 @@ router.get("/journalEntries", auth.required, async (req, res, next) => {
   if (userDB.validateJWT(userJSON.token)) {
     const journalEntries = await Model.journalEntry.find({
       user: userDB.username,
-    });
+    }).sort({ date: -1 });
     res.status(200).json({ journalEntries: journalEntries });
   } else {
     res.status(400).json({ message: "Invalid token" });
