@@ -3,7 +3,10 @@ import { Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export default class Register extends Component {
+
+
   onSubmit = (e) => {
+
     e.preventDefault();
     const data = {
       username: this.username,
@@ -12,9 +15,8 @@ export default class Register extends Component {
     };
     fetch("http://localhost:3001/register", {
       method: "POST",
-      mode: "no-cors",
       headers: {
-        "Access-Control-Allow-Origin": "*", // Required for CORS support to work
+        "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
@@ -22,10 +24,11 @@ export default class Register extends Component {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        if (data.success) {
-          this.props.history.push("/login");
+        if (data) {
+            history.push("/login");
         }
-      });
+      })
+      .catch((err) => console.log(err));
   };
 
   render() {
@@ -62,14 +65,14 @@ export default class Register extends Component {
                 />
               </Form.Group>
 
-            <div className="d-flex justify-content-center my-3 flex-column">
-            <Button variant="dark"  type="submit">
-                Submit
-              </Button>
-              <p className="align-self-center my-3">
-                Already have an account? <Link to="/login">Login</Link>
-              </p>
-            </div>
+              <div className="d-flex justify-content-center my-3 flex-column">
+                <Button variant="dark" type="submit">
+                  Submit
+                </Button>
+                <p className="align-self-center my-3">
+                  Already have an account? <Link to="/login">Login</Link>
+                </p>
+              </div>
             </Form>
           </div>
         </div>

@@ -31,11 +31,9 @@ function getDateNow() {
 // });
 
 router.post("/register", auth.optional, async (req, res, next) => {
-  // Check to see if the user already exists
   const user = await Model.userData.findOne({ username: req.body.username });
   if (user) {
-    res.render("register", { error: "User already exists" });
-    console.log("User already exists");
+    return res.status(400).json({ message: "User already exists" });
   } else {
     // Create a new User
     try {
@@ -44,9 +42,9 @@ router.post("/register", auth.optional, async (req, res, next) => {
         password: req.body.password,
         name: req.body.name,
       });
+      await user.save();
       user.setPassword(req.body.password);
-      user.save();
-      res.redirect("/login");
+      res.status(200).json({ user: user.toAuthJSON() });
       console.log("User created");
     } catch (err) {
       next(err);
@@ -88,7 +86,7 @@ router.post("/logout", auth.required, (req, res) => {
   req.session.destroy();
   res.redirect("/");
 });
-//Survivor 
+//Survivor
 
 //get the journal entries for the user
 router.get("/journalEntries", auth.required, async (req, res, next) => {
@@ -185,6 +183,5 @@ router.post("/editEntry/:id", auth.required, async (req, res, next) => {
   }
 });
 //Heavy refactoring needed
-
 
 module.exports = router;
