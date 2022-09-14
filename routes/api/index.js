@@ -95,20 +95,19 @@ router.post("/logout", auth.required, (req, res) => {
 
 //get the journal entries for the user
 router.get("/journalEntries", auth.required, async (req, res, next) => {
-  const userJSON = req.cookies.userJSON;
+  const userJSON = req.cookies.user;
+
   const userDB = await Model.userData.findOne({ username: userJSON.username });
+
+
 
   if (userDB.validateJWT(userJSON.token)) {
     const journalEntries = await Model.journalEntry.find({
       user: userDB.username,
     });
-
-    res.render("journalEntries", {
-      entries: journalEntries,
-      currentUser: userDB,
-    });
+    res.status(200).json({ journalEntries: journalEntries });
   } else {
-    res.redirect("/login");
+    res.status(400).json({ message: "Invalid token" });
     console.log("JWT is invalid");
   }
 });
