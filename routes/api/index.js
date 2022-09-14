@@ -32,8 +32,8 @@ function getDateNow() {
 
 router.post("/register", auth.optional, async (req, res, next) => {
   const user = await Model.userData.findOne({ username: req.body.username });
-  if (user) {
-    return res.status(400).json({ message: "User already exists" });
+  if (user != null) {
+    res.status(400).json({ message: "User already exists" });
   } else {
     // Create a new User
     try {
@@ -54,18 +54,22 @@ router.post("/register", auth.optional, async (req, res, next) => {
 // Survivor
 
 router.post("/login", auth.optional, async (req, res, next) => {
+  console.log("Login request");
+  console.log(req.body.username);
   const user = await Model.userData.findOne({ username: req.body.username });
-  if (!user) {
-    res.redirect("/register", { error: "User does not exist" });
+  console.log(user);
+  if (user == null) {
     console.log("User does not exist");
+    return res.status(400).json({ message: "User does not exist" });
   }
   if (!user.checkPassword(req.body.password)) {
     console.log("Password is incorrect");
-    res.redirect("/login");
+    return res.status(400).json({ message: "Password is incorrect" });
   }
 
   return passport.authenticate("local", (err, passportUser, info) => {
     if (err) {
+      console.log("Passport err");
       return next(err);
     }
     if (passportUser) {
@@ -73,9 +77,10 @@ router.post("/login", auth.optional, async (req, res, next) => {
       userJSON = user.toAuthJSON();
       // add the token to the cookie
       res.cookie("userJSON", userJSON);
-      res.redirect("/journalEntries");
+      return res.status(200).json({ user: user.toAuthJSON() });
     } else {
-      return res.redirect("/login");
+      console.log("Passport err");
+      return res.status(400).json({ message: "Error Occured" });
     }
   })(req, res, next);
 });

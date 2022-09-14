@@ -3,15 +3,53 @@ import React from "react";
 import "../../styles.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { Button, Form, FormGroup, Label, Input } from "react-bootstrap";
 
 export default class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      success: false,
+      error: false,
+      errorMessage: "",
+    };
+  }
+
   onSubmit = (e) => {
     e.preventDefault();
+    const data = {
+      username: this.username,
+      password: this.password,
+    };
+    console.log(data);
+    fetch("http://localhost:3001/login", {
+      method: "POST",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    }).then((res) => {
+      if (res.status === 200) {
+        this.setState({ success: true });
+        console.log("Login successful");
+      } else {
+        console.log("Login failed");
+        this.setState({ error: true });
+        res = res.json();
+        res.then((data) => {
+          this.setState({ errorMessage: data.message });
+        });
+      }
+    });
   };
 
   render() {
+    if (this.state.success) {
+      return <Navigate to="/journalEntries" />;
+    }
+
     return (
       <div className="container d-flex justify-content-md-center align-items-center vh-100">
         <div className="row">
@@ -20,20 +58,46 @@ export default class Login extends Component {
             <Form onSubmit={this.onSubmit}>
               <Form.Group controlId="formBasicUsername">
                 <Form.Label>Username</Form.Label>
-                <Form.Control type="username" placeholder="Enter username" />
-              </Form.Group>
+                <Form.Control
 
+                  type="text"
+                  placeholder="Enter username"
+                  onChange={(e) => (this.username = e.target.value)}
+                />
+              </Form.Group>
+              
               <Form.Group controlId="formBasicPassword">
                 <Form.Label>Password</Form.Label>
-                <Form.Control type="password" placeholder="Password" />
+                <Form.Control
+                  type="password"
+                  placeholder="Password"
+                  onChange={(e) => (this.password = e.target.value)}
+                />
               </Form.Group>
 
               <div className="d-flex justify-content-center flex-column my-3">
-                <Button className="w-25 align-self-center" variant="dark" type="submit">
+                {this.state.error ? (
+                  <div className="alert alert-danger" role="alert">
+                    {this.state.errorMessage}
+                  </div>
+                ) : null}
+                <Button
+                  className="w-25 align-self-center"
+                  variant="dark"
+                  type="submit"
+                >
                   Login
                 </Button>
-                <h5 className="align-self-center my-3"> No account yet? Then click here to join us!</h5>
-                <Button className="w-25 align-self-center"  variant="dark" as={Link} to="/register">
+                <h5 className="align-self-center my-3">
+                  {" "}
+                  No account yet? Then click here to join us!
+                </h5>
+                <Button
+                  className="w-25 align-self-center"
+                  variant="dark"
+                  as={Link}
+                  to="/register"
+                >
                   Register
                 </Button>
               </div>
