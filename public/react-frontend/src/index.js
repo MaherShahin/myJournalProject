@@ -5,7 +5,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./components/login/login";
 import Register from "./components/register/register";
 import EntryForm from "./components/entryForm/entryForm";
-import JournalEntry from "./components/journalEntry/journalEntry";
 import JournalEntries from "./components/journalEntries/journalEntries";
 import "./styles.css";
 import "bootstrap/dist/css/bootstrap.min.css";

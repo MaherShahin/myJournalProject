@@ -24,12 +24,11 @@ app.use(session({
     saveUninitialized: true,}));
 app.use(require('./routes'));
 
-// use the router
+
 app.use(router);
 
 app.listen(process.env.PORT, () => {
     console.log('Server is running on port ' + process.env.PORT);
 })
 
-
-// for all routes in routes, check that the user is logged in and if not, redirect to login page
+// If DB is not working, check that your IP is whitelisted from MongoDB or not 
