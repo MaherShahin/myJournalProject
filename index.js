@@ -4,10 +4,11 @@ require('dotenv').config();
 const path = require('path');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
-const database = require('./database/database');
-const passport = require('./config/passport');
+
 require('./model/model');
+
 require('./config/passport');
+
 const router = require('./routes');
 
 const app = express();
