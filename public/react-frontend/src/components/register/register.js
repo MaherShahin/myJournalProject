@@ -62,13 +62,15 @@ export default class Register extends Component {
                 />
               </Form.Group>
 
-              <Button variant="primary" type="submit">
+            <div className="d-flex justify-content-center my-3 flex-column">
+            <Button variant="dark"  type="submit">
                 Submit
               </Button>
+              <p className="align-self-center my-3">
+                Already have an account? <Link to="/login">Login</Link>
+              </p>
+            </div>
             </Form>
-            <p>
-              Already have an account? <Link to="/login">Login</Link>
-            </p>
           </div>
         </div>
       </div>
