@@ -42,8 +42,8 @@ router.post("/register", auth.optional, async (req, res, next) => {
         password: req.body.password,
         name: req.body.name,
       });
-      await user.save();
       user.setPassword(req.body.password);
+      await user.save();
       res.status(200).json({ user: user.toAuthJSON() });
       console.log("User created");
     } catch (err) {
