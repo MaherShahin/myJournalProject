@@ -5,6 +5,7 @@ import { Button } from "react-bootstrap";
 import Navbar from "../navbar/navbar";
 import Loading from "../loading/loading";
 import "../../styles.css";
+import { Link, Navigate } from "react-router-dom";
 
 export default class EntryForm extends Component {
 
@@ -14,10 +15,11 @@ export default class EntryForm extends Component {
       title: "",
       entry: "",
       isLoading: false,
+      submitted: false,
     };
   }
 
-  handleSubmit = this.handleSubmit.bind(this);
+  handleSubmit = this.handleSubmit.bind(this); // needed to fix issue of not being able to access state from within handleSubmit - not sure why this is the case
 
   handleSubmit(e) {
     e.preventDefault();
@@ -39,10 +41,15 @@ export default class EntryForm extends Component {
       credentials: "include",
       body: JSON.stringify(data),
     })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      });
+      .then((res) => {
+        if (res.status === 200) {
+          this.setState({ isLoading: false, submitted: true });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      }
+    );
   }
 
 
@@ -58,7 +65,9 @@ export default class EntryForm extends Component {
     if (this.state.isLoading) {
       return <Loading />;
     }
-
+    if (this.state.submitted) {
+      return <Navigate to="/journalEntries" />;
+    }
     return (
       <div>
         <Navbar />
