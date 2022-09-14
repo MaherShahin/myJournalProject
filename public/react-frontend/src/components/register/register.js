@@ -1,12 +1,19 @@
 import React, { Component } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 export default class Register extends Component {
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      success: false,
+      error: false,
+      errorMessage: "",
+    };
+  }
 
   onSubmit = (e) => {
-
     e.preventDefault();
     const data = {
       username: this.username,
@@ -20,18 +27,23 @@ export default class Register extends Component {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        if (data) {
-            history.push("/login");
-        }
-      })
-      .catch((err) => console.log(err));
+    }).then((res) => {
+      if (res.status === 200) {
+        this.setState({ success: true });
+      } else {
+        this.setState({ error: true });
+        this.setState({ errorMessage: res.message });
+      }
+    });
   };
 
+  // If state is success, redirect to login page
+  // If state is error, display error message
   render() {
+    if (this.state.success) {
+      return <Navigate to="/login" />;
+    }
+
     return (
       <div className="container d-flex justify-content-md-center align-items-center vh-100">
         <div className="row">
@@ -72,6 +84,16 @@ export default class Register extends Component {
                 <p className="align-self-center my-3">
                   Already have an account? <Link to="/login">Login</Link>
                 </p>
+                {this.state.success && (
+                  <p className="text-success text-center">
+                    You have successfully registered! Please login to continue.
+                  </p>
+                )}
+                {this.state.error && (
+                  <p className="text-danger text-center">
+                    {this.state.errorMessage}
+                  </p>
+                )}
               </div>
             </Form>
           </div>

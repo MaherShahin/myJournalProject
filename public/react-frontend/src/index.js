@@ -8,9 +8,10 @@ import EntryForm from "./components/entryForm/entryForm";
 import JournalEntries from "./components/journalEntries/journalEntries";
 import "./styles.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import history from "./utils/history";
 
 ReactDOM.render(
-  <BrowserRouter>
+  <BrowserRouter history={history}>
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="/login" element={<Login />} />
