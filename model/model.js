@@ -50,15 +50,15 @@ userDataScheme.methods.validateJWT = function (token) {
   // Check that the JWT Token is valid
   try {
     const decoded = jwt.verify(token, "secret");
-    if (decoded.exp < Date.now()) {
+    if (Date.now() >= decoded.exp * 1000) {
       return false;
     }
-    return decoded.username === this.username;
-  }
-  catch (err) {
+    if (decoded.username === this.username) {
+      return true;
+    }
+  } catch (err) { 
     return false;
   }
-  
 };
 
 userDataScheme.methods.toAuthJSON = function () {
