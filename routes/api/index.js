@@ -51,7 +51,7 @@ router.post("/register", auth.optional, async (req, res, next) => {
     }
   }
 });
-// Survivor
+// Refactored
 
 router.post("/login", auth.optional, async (req, res, next) => {
   console.log("Login request");
@@ -75,23 +75,24 @@ router.post("/login", auth.optional, async (req, res, next) => {
     if (passportUser) {
       const user = passportUser;
       userJSON = user.toAuthJSON();
-      // add the token to the cookie
-      res.cookie("userJSON", userJSON);
-      return res.status(200).json({ user: user.toAuthJSON() });
+      res.cookie("jwt", userJSON.token, { httpOnly: false });
+      res.cookie("user", userJSON);
+      return res.status(200).json({ user: userJSON });
     } else {
-      console.log("Passport err");
+      console.log("Passport error");
       return res.status(400).json({ message: "Error Occured" });
     }
   })(req, res, next);
 });
-//Survivor
+// Refactored
 
 router.post("/logout", auth.required, (req, res) => {
-  res.clearCookie("userJSON");
+  
+  res.clearCookie("token");
   req.session.destroy();
-  res.redirect("/");
+  res.status(200).json({ message: "Logout successful" });
 });
-//Survivor
+ //TO-DO: Refactor
 
 //get the journal entries for the user
 router.get("/journalEntries", auth.required, async (req, res, next) => {

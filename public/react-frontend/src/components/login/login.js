@@ -16,30 +16,36 @@ export default class Login extends Component {
     };
   }
 
-  onSubmit = (e) => {
+
+  handleLogin = (e) => {
     e.preventDefault();
     const data = {
       username: this.username,
       password: this.password,
     };
-    console.log(data);
     fetch("http://localhost:3001/login", {
       method: "POST",
       headers: {
-        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Origin": "http://localhost:3000",
         "Content-Type": "application/json",
       },
+      withCredentials: true,
+      credentials: "include",
       body: JSON.stringify(data),
     }).then((res) => {
       if (res.status === 200) {
         this.setState({ success: true });
         console.log("Login successful");
+        res.json().then((data) => {
+          
+        });
       } else {
         console.log("Login failed");
         this.setState({ error: true });
         res = res.json();
         res.then((data) => {
           this.setState({ errorMessage: data.message });
+          
         });
       }
     });
@@ -55,7 +61,7 @@ export default class Login extends Component {
         <div className="row">
           <div className="col">
             <h1>Your journey starts here!</h1>
-            <Form onSubmit={this.onSubmit}>
+            <Form onSubmit={this.handleLogin}>
               <Form.Group controlId="formBasicUsername">
                 <Form.Label>Username</Form.Label>
                 <Form.Control
