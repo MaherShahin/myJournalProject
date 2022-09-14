@@ -75,7 +75,6 @@ router.post("/login", auth.optional, async (req, res, next) => {
     if (passportUser) {
       const user = passportUser;
       userJSON = user.toAuthJSON();
-      res.cookie("jwt", userJSON.token, { httpOnly: false });
       res.cookie("user", userJSON);
       return res.status(200).json({ user: userJSON });
     } else {
@@ -87,8 +86,7 @@ router.post("/login", auth.optional, async (req, res, next) => {
 // Refactored
 
 router.post("/logout", auth.required, (req, res) => {
-  
-  res.clearCookie("token");
+  res.clearCookie("user");
   req.session.destroy();
   res.status(200).json({ message: "Logout successful" });
 });
@@ -115,16 +113,6 @@ router.get("/journalEntries", auth.required, async (req, res, next) => {
 });
 //Survivor with modifications
 
-// router.get("/userPortal", auth.required, async (req, res, next) => {
-//   const userJSON = req.cookies.userJSON;
-//   const userDB = await Model.userData.findOne({ username: userJSON.username });
-//   if (userDB.validateJWT(userJSON.token)) {
-//     res.render("userPortal", { currentUser: userDB });
-//   } else {
-//     res.redirect("/login");
-//     console.log("JWT is invalid");
-//   }
-// });
 
 router.post("/addEntry", auth.required, async (req, res, next) => {
   const userJSON = req.cookies.userJSON;

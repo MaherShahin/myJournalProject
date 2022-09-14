@@ -4,18 +4,23 @@ import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export default class customNavbar extends Component {
+
   handleLogout() {
-    const requestOptions = {
+    fetch("http://localhost:3001/logout", {
       method: "POST",
-    };
-    fetch("/logout", requestOptions)
-      .then((response) => response.json())
-      .then(
-        (data) => {
-          console.log(data);
-        }
-        // redirect to the main page
-      );
+      headers: {
+        "Access-Control-Allow-Origin": "http://localhost:3000",
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
+      credentials: "include",
+    }).then((res) => {
+      if (res.status === 200) {
+        console.log("Logout successful");
+      } else {
+        console.log("Logout failed");
+      }
+    });
   }
 
   render() {
