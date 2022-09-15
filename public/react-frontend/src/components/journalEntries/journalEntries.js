@@ -11,6 +11,7 @@ import Loading from "../loading/loading";
 import Error from "../error/error";
 import { HiOutlineTrash } from "react-icons/hi";
 import { HiOutlinePencil } from "react-icons/hi";
+import NewEntryButton from "../newEntryButton/newEntryButton";
 
 export default class JournalEntries extends Component {
   constructor() {
@@ -22,7 +23,7 @@ export default class JournalEntries extends Component {
       isLoading: true,
       errorMessages: [],
       error: false,
-      dataRetrieved: false,
+      newEntry: false,
     };
   }
 
@@ -72,6 +73,11 @@ export default class JournalEntries extends Component {
     const data = await response.json();
     this.getJournalEntries();
   }
+
+  handleNewEntry = () => {
+    this.setState({ newEntry: true });
+  };
+
 
   openModal = () => this.setState({ isViewingEntry: true });
 
@@ -124,19 +130,23 @@ export default class JournalEntries extends Component {
         <Navbar />
         <div className="container">
           <div className="row">
-            <div className="col">
-              <h1 className="my-3" style={{ color: "white" }}>
+            <div className="col d-flex flex-row justify-content-between">
+              <h1 className="my-5" style={{ color: "white" }}>
                 Journal Entries
               </h1>
+              <NewEntryButton  handleNewEntry={this.handleNewEntry.bind(this)}/>
             </div>
           </div>
-          <div className="d-flex row ">
-            <JournalEntryModal
+          
+          <JournalEntryModal
               closeModal={this.closeModal}
               entry={this.state.entryToBeViewed}
               show={this.state.isViewingEntry}
               handleEditSubmit={this.handleEditSubmit.bind(this)}
+              style={{ color: "blue" }}
+
             />
+          <div className="d-flex row ">
             {this.state.entries.map((entry) => {
               return (
                 <JournalEntry
