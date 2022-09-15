@@ -99,8 +99,6 @@ router.get("/journalEntries", auth.required, async (req, res, next) => {
 
   const userDB = await Model.userData.findOne({ username: userJSON.username });
 
-
-
   if (userDB.validateJWT(userJSON.token)) {
     const journalEntries = await Model.journalEntry.find({
       user: userDB.username,

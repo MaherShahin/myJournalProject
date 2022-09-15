@@ -60,9 +60,6 @@ userDataScheme.methods.toAuthJSON = function () {
   };
 };
 
-var userData = mongoose.model("userData", userDataScheme, "users");
-var journalEntry = mongoose.model("journalEntry", journalEntryScheme, "journalEntries");
-
 
 // Journal Entries Model Schema
 const journalEntryScheme = new mongoose.Schema({
@@ -79,6 +76,9 @@ var journalEntry = mongoose.model(
   "journalEntries"
 );
 
+
+var userData = mongoose.model("userData", userDataScheme, "users");
+var journalEntry = mongoose.model("journalEntry", journalEntryScheme, "journalEntries");
 
 
 module.exports = {
