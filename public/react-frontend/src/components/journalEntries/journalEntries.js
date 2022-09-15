@@ -143,8 +143,18 @@ export default class JournalEntries extends Component {
               return (
                 <Card
                   key={entry._id}
-                  style={{ width: "25rem", height: "25rem" }}
+                  style={{ width: "25rem", height: "25rem", opacity: "0.8" }}
                   className="m-3"
+                  onClick={() => this.handleView(entry)}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.opacity = "1";
+                    e.currentTarget.style.transform = "scale(1.05)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.opacity = "0.8";
+                    e.currentTarget.style.transform = "scale(1)";
+                  }}
+
                 >
                   <Card.Body style={{ overflow: "hidden" }}>
                     <Card.Title style={{display:"flex", "justify-content":"space-between"}}>
@@ -160,12 +170,7 @@ export default class JournalEntries extends Component {
                     <Card.Text>{entry.content}</Card.Text>
                   </Card.Body>
 
-                  <Button
-                    className="btn-dark my-3"
-                    onClick={() => this.handleView(entry)}
-                  >
-                    View Entry
-                  </Button>
+
                 </Card>
               );
             })}
