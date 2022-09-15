@@ -9,7 +9,8 @@ import JournalEntryModal from "../journalEntryModal/journalEntryModal";
 import { Modal } from "react-bootstrap";
 import Loading from "../loading/loading";
 import Error from "../error/error";
-import {HiOutlineTrash} from "react-icons/hi";
+import { HiOutlineTrash } from "react-icons/hi";
+import { HiOutlinePencil } from "react-icons/hi";
 
 export default class JournalEntries extends Component {
   constructor() {
@@ -102,12 +103,10 @@ export default class JournalEntries extends Component {
   }
 
   componentDidMount() {
-    this.getJournalEntries(); // BAD PRACTICE 
+    this.getJournalEntries(); // BAD PRACTICE
   }
 
-  componentDidUpdate() {
-
-  }
+  componentDidUpdate() {}
 
   render() {
     if (this.state.error) {
@@ -126,7 +125,9 @@ export default class JournalEntries extends Component {
         <div className="container">
           <div className="row">
             <div className="col">
-              <h1 className="my-3" style={{ color: "white" }}>Journal Entries</h1>
+              <h1 className="my-3" style={{ color: "white" }}>
+                Journal Entries
+              </h1>
             </div>
           </div>
           <div className="d-flex row ">
@@ -136,40 +137,13 @@ export default class JournalEntries extends Component {
               show={this.state.isViewingEntry}
               handleEditSubmit={this.handleEditSubmit.bind(this)}
             />
-
             {this.state.entries.map((entry) => {
               return (
-                <Card
-                  key={entry._id}
-                  style={{ width: "25rem", height: "25rem", opacity: "0.8" }}
-                  className="m-3"
-                  onClick={() => this.handleView(entry)}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.opacity = "1";
-                    e.currentTarget.style.transform = "scale(1.05)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.opacity = "0.8";
-                    e.currentTarget.style.transform = "scale(1)";
-                  }}
-
-                >
-                  <Card.Body style={{ overflow: "hidden" }}>
-                    <Card.Title style={{display:"flex", "justify-content":"space-between"}}>
-                      {entry.title}
-                      <Button as="div" variant="danger" style={{"margin-right":"-15px", "margin-top":"-5px"}} onClick={() => this.handleDelete(entry)}>
-
-                        <HiOutlineTrash />
-                      </Button>
-                    </Card.Title>
-                    <Card.Subtitle className="mb-2 text-muted">
-                      {entry.date}
-                    </Card.Subtitle>
-                    <Card.Text>{entry.content}</Card.Text>
-                  </Card.Body>
-
-
-                </Card>
+                <JournalEntry
+                  entry={entry}
+                  handleView={this.handleView.bind(this)}
+                  handleDelete={this.handleDelete.bind(this)}
+                />
               );
             })}
           </div>
