@@ -8,11 +8,11 @@ export default class NewEntryButton extends React.Component {
 
   render() {
     return (
-      <div className="my-4">
+      <div className="my-4 ">
         <IoAddCircle
           onClick={() => this.props.handleNewEntry()}
           size={100}
-          style={{ color: "green" }}
+          style={{ color: "green", marginRight: "20px" }}
           onMouseEnter={(e) => {
             e.currentTarget.style.color = "white";
             e.currentTarget.style.cursor = "pointer";
