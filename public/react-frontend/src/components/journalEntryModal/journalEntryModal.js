@@ -13,11 +13,12 @@ export default class JournalEntryModal extends Component {
       entry: {
         title: "Generic Title",
         content: "Generic Content",
-        id: null,
+        id: null
       },
       isEditing: false,
       entryChanged: false,
     };
+    
   }
 
   componentDidUpdate() {
@@ -54,7 +55,9 @@ export default class JournalEntryModal extends Component {
             size="lg"
             aria-labelledby="example-modal-sizes-title-xl"
             dialogClassName="modal-90w"
+             style={{ width: "90%" }}
           >
+          
             <Modal.Header closeButton>
               <Modal.Title id="contained-modal-title-vcenter">
                 <input
