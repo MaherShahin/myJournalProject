@@ -33,8 +33,6 @@ export default class JournalEntryModal extends Component {
 
   handleEditing() {
     this.setState({ isEditing: true });
-    console.log("handleEditing");
-    console.log(this.state.isEditing);
   }
 
   render() {
