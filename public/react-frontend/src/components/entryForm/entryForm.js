@@ -6,6 +6,7 @@ import Navbar from "../navbar/navbar";
 import Loading from "../loading/loading";
 import "../../styles.css";
 import { Link, Navigate } from "react-router-dom";
+import Error from "../error/error";
 
 export default class EntryForm extends Component {
 
@@ -72,8 +73,9 @@ export default class EntryForm extends Component {
     if (this.state.isLoading) {
       return <Loading />;
     }
-    if (this.state.submitted) {
-      return <Navigate to="/journalEntries" />;
+    
+    if (!document.cookie.includes("user")) {
+      return <Error errorMessages={["Authentication Error"]} />;
     }
     return (
       <div>
