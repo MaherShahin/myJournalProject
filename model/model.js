@@ -79,6 +79,8 @@ var journalEntry = mongoose.model(
   "journalEntries"
 );
 
+
+
 module.exports = {
   userData,
   journalEntry,
