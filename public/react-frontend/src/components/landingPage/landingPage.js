@@ -2,7 +2,7 @@ import React from "react";
 import "../../styles.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {Component} from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 export default class LandingPage extends Component {
     state = {
@@ -10,6 +10,9 @@ export default class LandingPage extends Component {
     };
     
     render() {
+        if ( document.cookie.includes("user") ) {
+            return <Navigate to="/journalEntries" />;
+        } else {
         return (
         <div className="App">
             <div class="container d-flex text-center flex-column my-5">
@@ -28,3 +31,4 @@ export default class LandingPage extends Component {
         );
     }
     }
+}

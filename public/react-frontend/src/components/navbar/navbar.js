@@ -2,6 +2,7 @@ import NavbarCollapse from "react-bootstrap/esm/NavbarCollapse";
 import React, { Component } from "react";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 export default class customNavbar extends Component {
 
@@ -16,8 +17,10 @@ export default class customNavbar extends Component {
       credentials: "include",
     }).then((res) => {
       if (res.status === 200) {
+
         console.log("Logout successful");
       } else {
+        
         console.log("Logout failed");
       }
     });
@@ -42,7 +45,13 @@ export default class customNavbar extends Component {
             <Nav.Link as={Link} to="/journalEntries">
               Journal Entries
             </Nav.Link>
-            <Nav.Link as={Link} to="/" onClick={this.handleLogout}>
+            <Nav.Link as={Link} to="/" onClick={async () => {
+              this.handleLogout();
+              await setTimeout(() => {
+                return <Navigate to="/" />
+              }
+              , 100);
+            }}>
               Logout
             </Nav.Link>
           </Nav>
