@@ -74,10 +74,10 @@ export default class JournalEntryModal extends Component {
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <input
+              <textarea
                 className="form-control"
                 id="content"
-                rows="50"
+                rows="30"
                 value={this.state.entry.content}
                 onChange={(e) =>
                   this.setState({
