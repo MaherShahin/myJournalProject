@@ -9,6 +9,7 @@ import JournalEntryModal from "../journalEntryModal/journalEntryModal";
 import { Modal } from "react-bootstrap";
 import Loading from "../loading/loading";
 import Error from "../error/error";
+import {HiOutlineTrash} from "react-icons/hi";
 
 export default class JournalEntries extends Component {
   constructor() {
@@ -22,8 +23,6 @@ export default class JournalEntries extends Component {
       error: false,
     };
   }
-
-
 
   async handleDelete(entry) {
     this.setState({ isLoading: true });
@@ -54,27 +53,29 @@ export default class JournalEntries extends Component {
     // get card id
 
     this.setState({ isLoading: true });
-    const response = await fetch("http://localhost:3001/editEntry/" + entry._id, {
-      method: "POST",
+    const response = await fetch(
+      "http://localhost:3001/editEntry/" + entry._id,
+      {
+        method: "POST",
 
-      headers: {
-        "Access-Control-Allow-Origin": "http://localhost:3000",
-        "Content-Type": "application/json",
-      },
-      withCredentials: true,
-      credentials: "include",
-      body: JSON.stringify(entry),
-    });
+        headers: {
+          "Access-Control-Allow-Origin": "http://localhost:3000",
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+        credentials: "include",
+        body: JSON.stringify(entry),
+      }
+    );
     const data = await response.json();
     this.getJournalEntries();
-  };
+  }
 
   openModal = () => this.setState({ isViewingEntry: true });
 
   closeModal = () => this.setState({ isViewingEntry: false });
 
   async getJournalEntries() {
-
     const response = await fetch("http://localhost:3001/journalEntries", {
       method: "GET",
       headers: {
@@ -88,10 +89,15 @@ export default class JournalEntries extends Component {
       const data = await response.json();
       this.setState({ entries: data.journalEntries, isLoading: false });
     } else {
-      this.setState({errorMessages: ["Error: " + response.status + " " + response.statusText], error: true, isLoading: false});
+      this.setState({
+        errorMessages: [
+          "Error: " + response.status + " " + response.statusText,
+        ],
+        error: true,
+        isLoading: false,
+      });
       console.log("Error: " + response.status + " " + response.statusText);
     }
-
   }
 
   componentDidMount() {
@@ -106,11 +112,10 @@ export default class JournalEntries extends Component {
   }
 
   render() {
-    if (this.state.error){
+    if (this.state.error) {
       return (
         <div>
-
-          <Error errorMessages={this.state.errorMessages}/>
+          <Error errorMessages={this.state.errorMessages} />
         </div>
       );
     }
@@ -142,7 +147,13 @@ export default class JournalEntries extends Component {
                   className="m-3"
                 >
                   <Card.Body style={{ overflow: "hidden" }}>
-                    <Card.Title>{entry.title}</Card.Title>
+                    <Card.Title style={{display:"flex", "justify-content":"space-between"}}>
+                      {entry.title}
+                      <Button as="div" variant="danger" style={{"margin-right":"-15px", "margin-top":"-5px"}} onClick={() => this.handleDelete(entry)}>
+
+                        <HiOutlineTrash />
+                      </Button>
+                    </Card.Title>
                     <Card.Subtitle className="mb-2 text-muted">
                       {entry.date}
                     </Card.Subtitle>
@@ -150,16 +161,10 @@ export default class JournalEntries extends Component {
                   </Card.Body>
 
                   <Button
-                    className="btn-dark"
+                    className="btn-dark my-3"
                     onClick={() => this.handleView(entry)}
                   >
                     View Entry
-                  </Button>
-                  <Button
-                    className="btn danger"
-                    onClick={() => this.handleDelete(entry)}
-                  >
-                    Delete Entry
                   </Button>
                 </Card>
               );
