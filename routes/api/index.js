@@ -164,6 +164,6 @@ router.post("/editEntry/:id", auth.required, async (req, res, next) => {
     console.log("JWT is invalid");
   }
 });
-//Heavy refactoring needed
+//Refactored
 
 module.exports = router;

@@ -46,7 +46,7 @@ export default class JournalEntries extends Component {
     await setTimeout(() => {
       this.setState({ isViewingEntry: true, entryToBeViewed: entry });
       this.openModal();
-    }, 300);
+    }, 100);
   }
 
   async handleEditSubmit(entry) {
