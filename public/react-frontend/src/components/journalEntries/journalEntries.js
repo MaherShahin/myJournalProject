@@ -28,6 +28,7 @@ export default class JournalEntries extends Component {
 
   async handleDelete(entry) {
     this.setState({ isLoading: true });
+
     const response = await fetch(
       "http://localhost:3001/deleteEntry/" + entry._id,
       {
@@ -42,6 +43,7 @@ export default class JournalEntries extends Component {
     );
     const data = await response.json();
     this.getJournalEntries();
+    this.setState({ isViewingEntry: false });
   }
 
   async handleView(entry) {
@@ -52,8 +54,6 @@ export default class JournalEntries extends Component {
   }
 
   async handleEditSubmit(entry) {
-    // get card id
-
     this.setState({ isLoading: true });
     const response = await fetch(
       "http://localhost:3001/editEntry/" + entry._id,
