@@ -1,0 +1,1 @@
+web:  npm i && npm run start && cd public && cd react-frontend && npm i && npm run start 
