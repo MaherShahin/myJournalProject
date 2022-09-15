@@ -1,1 +1,1 @@
-web: cd .\public\react-frontend\ && npm install && npm run build
+web: cd .\public\react-frontend\ && npm install && npm run start
