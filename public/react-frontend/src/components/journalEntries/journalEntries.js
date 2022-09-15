@@ -128,7 +128,7 @@ export default class JournalEntries extends Component {
         <div className="container">
           <div className="row">
             <div className="col">
-              <h1 style={{ color: "white" }}>Journal Entries</h1>
+              <h1 className="my-3" style={{ color: "white" }}>Journal Entries</h1>
             </div>
           </div>
           <div className="d-flex row ">
