@@ -1,1 +1,4 @@
-web: cd .\public\react-frontend\ && npm i && npm start
+
+#  deploy front end and back end
+web: cd frontend && npm start
+web: cd backend && npm start
