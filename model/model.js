@@ -21,14 +21,6 @@ userDataScheme.methods.checkPassword = function (password) {
   );
 };
 
-// Journal Entries Model Schema
-const journalEntryScheme = new mongoose.Schema({
-  title: { type: String, required: true },
-  content: { type: String, required: true },
-  date: { type: String },
-  updatedOn: { type: String },
-  user: { type: String, required: true },
-});
 
 // JWT Tokens
 userDataScheme.methods.generateJWT = function () {
@@ -69,7 +61,25 @@ userDataScheme.methods.toAuthJSON = function () {
 };
 
 var userData = mongoose.model("userData", userDataScheme, "users");
+<<<<<<< HEAD
 var journalEntry = mongoose.model("journalEntry", journalEntryScheme, "journalEntries");
+=======
+
+// Journal Entries Model Schema
+const journalEntryScheme = new mongoose.Schema({
+  title: { type: String, required: true },
+  content: { type: String, required: true },
+  date: { type: String },
+  updatedOn: { type: String },
+  user: { type: String, required: true },
+});
+
+var journalEntry = mongoose.model(
+  "journalEntry",
+  journalEntryScheme,
+  "journalEntries"
+);
+>>>>>>> 843e82dceb793eb6071d90ed4facbea8a6709045
 
 module.exports = {
   userData,
