@@ -36,9 +36,6 @@ export default class customNavbar extends Component {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
           <Nav className="mr-auto">
-            <Nav.Link as={Link} to="/newEntry">
-              New Entry
-            </Nav.Link>
           </Nav>
           <Nav>
             <Nav.Link as={Link} to="/journalEntries">
