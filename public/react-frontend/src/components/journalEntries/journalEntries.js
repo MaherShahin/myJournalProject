@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import JournalEntryModal from "../journalEntryModal/journalEntryModal";
 import { Modal } from "react-bootstrap";
 import Loading from "../loading/loading";
+import Error from "../error/error";
 
 export default class JournalEntries extends Component {
   constructor() {
@@ -17,8 +18,12 @@ export default class JournalEntries extends Component {
       isViewingEntry: false,
       entryToBeViewed: null,
       isLoading: true,
+      errorMessages: [],
+      error: false,
     };
   }
+
+
 
   async handleDelete(entry) {
     this.setState({ isLoading: true });
@@ -69,6 +74,7 @@ export default class JournalEntries extends Component {
   closeModal = () => this.setState({ isViewingEntry: false });
 
   async getJournalEntries() {
+
     const response = await fetch("http://localhost:3001/journalEntries", {
       method: "GET",
       headers: {
@@ -78,8 +84,14 @@ export default class JournalEntries extends Component {
       withCredentials: true,
       credentials: "include",
     });
-    const data = await response.json();
-    this.setState({ entries: data.journalEntries, isLoading: false });
+    if (response.status === 200) {
+      const data = await response.json();
+      this.setState({ entries: data.journalEntries, isLoading: false });
+    } else {
+      this.setState({errorMessages: ["Error: " + response.status + " " + response.statusText], error: true, isLoading: false});
+      console.log("Error: " + response.status + " " + response.statusText);
+    }
+
   }
 
   componentDidMount() {
@@ -87,10 +99,21 @@ export default class JournalEntries extends Component {
   }
 
   componentDidUpdate() {
+    if (this.state.error) {
+      return;
+    }
     this.getJournalEntries();
   }
 
   render() {
+    if (this.state.error){
+      return (
+        <div>
+
+          <Error errorMessages={this.state.errorMessages}/>
+        </div>
+      );
+    }
     if (this.state.isLoading) {
       return <Loading />;
     }

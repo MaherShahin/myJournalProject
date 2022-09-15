@@ -55,7 +55,7 @@ export default class JournalEntryModal extends Component {
             size="lg"
             aria-labelledby="example-modal-sizes-title-xl"
             dialogClassName="modal-90w"
-             style={{ width: "90%" }}
+             style={{ width: "90%"}}
           >
           
             <Modal.Header closeButton>
@@ -126,6 +126,7 @@ export default class JournalEntryModal extends Component {
             aria-labelledby="example-modal-sizes-title-xl"
             dialogClassName="modal-90w"
             onClick={() => this.handleEditing()}
+
           >
             <Modal.Header closeButton>
               <Modal.Title>{this.state.entry.title}</Modal.Title>
