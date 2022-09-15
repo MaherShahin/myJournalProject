@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default class Error extends React.Component {
     render(props) {
@@ -8,7 +9,8 @@ export default class Error extends React.Component {
                 {this.props.errorMessages.map((message) => {
                     return <p>{message}</p>;
                 })}
-
+                {/* Navigate to home instead */}
+                <Link to="/" className="btn btn-dark">Go Home Instead</Link>
             </div>
         );
     }
