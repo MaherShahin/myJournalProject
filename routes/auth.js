@@ -1,7 +1,8 @@
 const jwt = require("express-jwt");
 
 const getTokenFromCookies = (req) => {
-  const userJSON = req.cookies.userJSON;
+  const userJSON = req.cookies.user;
+  // decode the token from the cookie
   if (userJSON) {
     return userJSON.token;
   }
@@ -16,6 +17,7 @@ const auth = {
     algorithms: ["HS256"],
   }),
   optional: jwt.expressjwt({
+
     secret: "secret",
     userProperty: "payload",
     getToken: getTokenFromCookies,

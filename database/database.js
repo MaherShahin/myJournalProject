@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
+
 const database = mongoose.connection;
 
 database.on('error', (err) => {

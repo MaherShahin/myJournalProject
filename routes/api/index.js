@@ -18,24 +18,22 @@ function getDateNow() {
   );
 }
 
-router.get("/", auth.optional, (req, res) => {
-  res.render("index");
-});
+// router.get("/", auth.optional, (req, res) => {
+//   res.render("index");
+// });
 
-router.get("/register", auth.optional, (req, res) => {
-  res.render("register");
-});
+// router.get("/register", auth.optional, (req, res) => {
+//   res.render("register");
+// });
 
-router.get("/login", auth.optional, (req, res) => {
-  res.render("login");
-});
+// router.get("/login", auth.optional, (req, res) => {
+//   res.render("login");
+// });
 
 router.post("/register", auth.optional, async (req, res, next) => {
-  // Check to see if the user already exists
   const user = await Model.userData.findOne({ username: req.body.username });
-  if (user) {
-    res.render("register", { error: "User already exists" });
-    console.log("User already exists");
+  if (user != null) {
+    res.status(400).json({ message: "User already exists" });
   } else {
     // Create a new User
     try {
@@ -45,81 +43,79 @@ router.post("/register", auth.optional, async (req, res, next) => {
         name: req.body.name,
       });
       user.setPassword(req.body.password);
-      user.save();
-      res.redirect("/login");
+      await user.save();
+      res.status(200).json({ user: user.toAuthJSON() });
       console.log("User created");
     } catch (err) {
       next(err);
     }
   }
 });
+// Refactored
 
 router.post("/login", auth.optional, async (req, res, next) => {
+  console.log("Login request");
+  console.log(req.body.username);
   const user = await Model.userData.findOne({ username: req.body.username });
-  if (!user) {
-    res.redirect("/register", { error: "User does not exist" });
+  console.log(user);
+  if (user == null) {
     console.log("User does not exist");
+    return res.status(400).json({ message: "User does not exist" });
   }
   if (!user.checkPassword(req.body.password)) {
     console.log("Password is incorrect");
-    res.redirect("/login");
+    return res.status(400).json({ message: "Password is incorrect" });
   }
 
   return passport.authenticate("local", (err, passportUser, info) => {
     if (err) {
+      console.log("Passport err");
       return next(err);
     }
     if (passportUser) {
       const user = passportUser;
       userJSON = user.toAuthJSON();
-      // add the token to the cookie
-      res.cookie("userJSON", userJSON);
-      res.redirect("/journalEntries");
+      res.cookie("user", userJSON);
+      return res.status(200).json({ user: userJSON });
     } else {
-      return res.redirect("/login");
+      console.log("Passport error");
+      return res.status(400).json({ message: "Error Occured" });
     }
   })(req, res, next);
 });
+// Refactored
 
 router.post("/logout", auth.required, (req, res) => {
-  res.clearCookie("userJSON");
+
+  res.clearCookie("user");
   req.session.destroy();
-  res.redirect("/");
+  res.status(200).json({ message: "Logout successful" });
 });
+  // Refactored
 
 //get the journal entries for the user
 router.get("/journalEntries", auth.required, async (req, res, next) => {
-  const userJSON = req.cookies.userJSON;
+  const userJSON = req.cookies.user;
+
   const userDB = await Model.userData.findOne({ username: userJSON.username });
+
+
 
   if (userDB.validateJWT(userJSON.token)) {
     const journalEntries = await Model.journalEntry.find({
       user: userDB.username,
-    });
-
-    res.render("journalEntries", {
-      entries: journalEntries,
-      currentUser: userDB,
-    });
+    }).sort({ date: -1 });
+    res.status(200).json({ journalEntries: journalEntries });
   } else {
-    res.redirect("/login");
+    res.status(400).json({ message: "Invalid token" });
     console.log("JWT is invalid");
   }
 });
+//Refactored
 
-router.get("/userPortal", auth.required, async (req, res, next) => {
-  const userJSON = req.cookies.userJSON;
-  const userDB = await Model.userData.findOne({ username: userJSON.username });
-  if (userDB.validateJWT(userJSON.token)) {
-    res.render("userPortal", { currentUser: userDB });
-  } else {
-    res.redirect("/login");
-    console.log("JWT is invalid");
-  }
-});
 
 router.post("/addEntry", auth.required, async (req, res, next) => {
-  const userJSON = req.cookies.userJSON;
+  const userJSON = req.cookies.user;
   const userDB = await Model.userData.findOne({ username: userJSON.username });
 
   if (userDB.validateJWT(userJSON.token)) {
@@ -131,40 +127,30 @@ router.post("/addEntry", auth.required, async (req, res, next) => {
       updatedOn: getDateNow(),
     });
     entry.save();
-    res.redirect("/journalEntries");
+    res.status(200).json({ message: "Entry added" });
   } else {
-    res.redirect("/login");
+    res.status(400).json({ message: "Invalid token - authentication wasnt successfull" });
     console.log("JWT is invalid");
   }
 });
+//Refactored
 
 router.delete("/deleteEntry/:id", auth.required, async (req, res, next) => {
-  const userJSON = req.cookies.userJSON;
+  const userJSON = req.cookies.user;
   const userDB = await Model.userData.findOne({ username: userJSON.username });
   if (userDB.validateJWT(userJSON.token)) {
     const entry = await Model.journalEntry.findById(req.params.id);
     entry.remove();
-    res.redirect("/journalEntries");
+    res.status(200).json({ message: "Entry deleted" });
   } else {
-    res.redirect("/login");
+    res.status(400).json({ message: "Invalid token" });
     console.log("JWT is invalid");
   }
 });
-
-router.get("/editEntry/:id", auth.required, async (req, res, next) => {
-  const userJSON = req.cookies.userJSON;
-  const userDB = await Model.userData.findOne({ username: userJSON.username });
-  if (userDB.validateJWT(userJSON.token)) {
-    const entry = await Model.journalEntry.findById(req.params.id);
-    res.render("editEntry", { entry: entry, currentUser: userDB });
-  } else {
-    res.redirect("/login");
-    console.log("JWT is invalid");
-  }
-});
+//Refactored
 
 router.post("/editEntry/:id", auth.required, async (req, res, next) => {
-  const userJSON = req.cookies.userJSON;
+  const userJSON = req.cookies.user;
   const userDB = await Model.userData.findOne({ username: userJSON.username });
   if (userDB.validateJWT(userJSON.token)) {
     const entry = await Model.journalEntry.findById(req.params.id);
@@ -172,12 +158,12 @@ router.post("/editEntry/:id", auth.required, async (req, res, next) => {
     entry.content = req.body.content;
     entry.updatedOn = getDateNow();
     entry.save();
-    res.redirect("/journalEntries");
+    res.status(200).json({ message: "Entry edited" });
   } else {
-    res.redirect("/login");
+    res.status(400).json({ message: "Invalid token" });
     console.log("JWT is invalid");
   }
 });
-
+//Refactored
 
 module.exports = router;
