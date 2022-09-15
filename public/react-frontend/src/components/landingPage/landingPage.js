@@ -4,10 +4,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import {Component} from "react";
 import { Link, Navigate } from "react-router-dom";
 
+
 export default class LandingPage extends Component {
-    state = {
-        users: [],
-    };
+
+
     
     render() {
         if ( document.cookie.includes("user") ) {

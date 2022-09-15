@@ -17,10 +17,9 @@ export default class customNavbar extends Component {
       credentials: "include",
     }).then((res) => {
       if (res.status === 200) {
-
         console.log("Logout successful");
+        window.location.href = "http://localhost:3000/"; // redirect to home page -- didn't use Navigate here because it was causing an error and redirecting too quickly to the home page
       } else {
-        
         console.log("Logout failed");
       }
     });
@@ -45,12 +44,8 @@ export default class customNavbar extends Component {
             <Nav.Link as={Link} to="/journalEntries">
               Journal Entries
             </Nav.Link>
-            <Nav.Link as={Link} to="/" onClick={async () => {
+            <Nav.Link onClick={async () => {
               this.handleLogout();
-              await setTimeout(() => {
-                return <Navigate to="/" />
-              }
-              , 100);
             }}>
               Logout
             </Nav.Link>
