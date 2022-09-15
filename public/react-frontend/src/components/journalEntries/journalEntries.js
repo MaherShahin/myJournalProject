@@ -105,7 +105,7 @@ export default class JournalEntries extends Component {
   }
 
   componentDidUpdate() {
-    if (this.state.error) {
+    if (this.state.error || this.state.isLoading) {
       return;
     }
     this.getJournalEntries();
