@@ -18,7 +18,7 @@ rootElement.render(
     <Route path="/login" element={<Login />} />
     <Route path="/register" element={<Register />} />
     <Route path="/journalEntries" element={<JournalEntries />} />
-    <Route path="/newEntry" element={<EntryForm />} />
+
     <Route path="*" element={<Error errorMessages={["Resource not found"]} />} />
   </Routes>
 </BrowserRouter>

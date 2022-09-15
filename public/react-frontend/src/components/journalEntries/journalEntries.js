@@ -78,12 +78,12 @@ export default class JournalEntries extends Component {
   handleNewEntry = () => {
     this.setState({ newEntry: true });
   };
-  
-  async  handleNewEntrySubmit(entry) {
+
+  async handleNewEntrySubmit(entry) {
     this.setState({ isLoading: true });
     const data = {
       title: entry.title,
-      content: entry.content
+      content: entry.content,
     };
 
     console.log(data);
@@ -111,10 +111,8 @@ export default class JournalEntries extends Component {
           errorMessage: "Error: " + err,
         });
         console.log(err);
-      }
-    );
+      });
   }
-
 
   async getJournalEntries() {
     const response = await fetch("http://localhost:3001/journalEntries", {
@@ -171,12 +169,10 @@ export default class JournalEntries extends Component {
               <h1 className="my-5" style={{ color: "white" }}>
                 Journal Entries
               </h1>
-              <NewEntryButton
-                handleNewEntry={this.handleNewEntry.bind(this)}
-              />
+              <NewEntryButton handleNewEntry={this.handleNewEntry.bind(this)} />
             </div>
           </div>
-          <NewEntryModal      
+          <NewEntryModal
             closeModal={this.closeModal.bind(this)}
             newEntry={this.state.newEntry}
             show={this.state.newEntry}
