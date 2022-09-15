@@ -33,6 +33,7 @@ export default class JournalEntryModal extends Component {
 
   handleEditing() {
     this.setState({ isEditing: true });
+
   }
 
   render() {
@@ -122,6 +123,7 @@ export default class JournalEntryModal extends Component {
             aria-labelledby="example-modal-sizes-title-xl"
             dialogClassName="modal-90w"
             onClick={() => this.handleEditing()}
+            style={{ width: "90%" , color: "black"}}
           >
             <Modal.Header closeButton>
               <Modal.Title>{this.state.entry.title}</Modal.Title>
