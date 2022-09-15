@@ -39,9 +39,30 @@ export default class JournalEntries extends Component {
   }
 
   async handleView(entry) {
-    await this.setState({ entryToBeViewed: entry });
-    this.openModal();
+    await setTimeout(() => {
+      this.setState({ isViewingEntry: true, entryToBeViewed: entry });
+      this.openModal();
+    }, 300);
   }
+
+  async handleEditSubmit(entry) {
+    // get card id
+
+    this.setState({ isLoading: true });
+    const response = await fetch("http://localhost:3001/editEntry/" + entry._id, {
+      method: "POST",
+
+      headers: {
+        "Access-Control-Allow-Origin": "http://localhost:3000",
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
+      credentials: "include",
+      body: JSON.stringify(entry),
+    });
+    const data = await response.json();
+    this.getJournalEntries();
+  };
 
   openModal = () => this.setState({ isViewingEntry: true });
 
@@ -87,6 +108,7 @@ export default class JournalEntries extends Component {
               closeModal={this.closeModal}
               entry={this.state.entryToBeViewed}
               show={this.state.isViewingEntry}
+              handleEditSubmit={this.handleEditSubmit.bind(this)}
             />
 
             {this.state.entries.map((entry) => {

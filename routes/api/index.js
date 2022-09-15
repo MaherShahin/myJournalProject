@@ -133,7 +133,7 @@ router.post("/addEntry", auth.required, async (req, res, next) => {
     console.log("JWT is invalid");
   }
 });
-//TO DO
+//Refactored
 
 router.delete("/deleteEntry/:id", auth.required, async (req, res, next) => {
   const userJSON = req.cookies.user;
@@ -147,22 +147,10 @@ router.delete("/deleteEntry/:id", auth.required, async (req, res, next) => {
     console.log("JWT is invalid");
   }
 });
-//Survivor
-
-// router.get("/editEntry/:id", auth.required, async (req, res, next) => {
-//   const userJSON = req.cookies.userJSON;
-//   const userDB = await Model.userData.findOne({ username: userJSON.username });
-//   if (userDB.validateJWT(userJSON.token)) {
-//     const entry = await Model.journalEntry.findById(req.params.id);
-//     res.render("editEntry", { entry: entry, currentUser: userDB });
-//   } else {
-//     res.redirect("/login");
-//     console.log("JWT is invalid");
-//   }
-// });
+//Refactored
 
 router.post("/editEntry/:id", auth.required, async (req, res, next) => {
-  const userJSON = req.cookies.userJSON;
+  const userJSON = req.cookies.user;
   const userDB = await Model.userData.findOne({ username: userJSON.username });
   if (userDB.validateJWT(userJSON.token)) {
     const entry = await Model.journalEntry.findById(req.params.id);
@@ -170,9 +158,9 @@ router.post("/editEntry/:id", auth.required, async (req, res, next) => {
     entry.content = req.body.content;
     entry.updatedOn = getDateNow();
     entry.save();
-    res.redirect("/journalEntries");
+    res.status(200).json({ message: "Entry edited" });
   } else {
-    res.redirect("/login");
+    res.status(400).json({ message: "Invalid token" });
     console.log("JWT is invalid");
   }
 });
