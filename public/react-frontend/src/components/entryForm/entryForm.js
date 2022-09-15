@@ -73,7 +73,9 @@ export default class EntryForm extends Component {
     if (this.state.isLoading) {
       return <Loading />;
     }
-    
+    if (this.state.submitted) {
+      return <Navigate to="/journalEntries" />;
+    }
     if (!document.cookie.includes("user")) {
       return <Error errorMessages={["Authentication Error"]} />;
     }
@@ -82,7 +84,7 @@ export default class EntryForm extends Component {
         <Navbar />
         <div className="container">
           <h1> This is the entry form </h1>
-          <Form onSubmit={this.handleSubmit}>
+          <Form onSubmit={(this.handleSubmit)}>
             <Form.Group>
               <Form.Label>Title</Form.Label>
               <Form.Control

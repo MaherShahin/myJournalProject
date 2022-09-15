@@ -10,7 +10,8 @@ import "./styles.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const rootElement = ReactDOM.createRoot(document.getElementById("root"));
-rootElement.render(  <BrowserRouter>
+rootElement.render(  
+<BrowserRouter>
   <Routes>
     <Route path="/" element={<App />} />
     <Route path="/login" element={<Login />} />
