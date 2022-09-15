@@ -21,6 +21,7 @@ export default class JournalEntries extends Component {
       isLoading: true,
       errorMessages: [],
       error: false,
+      dataRetrieved: false,
     };
   }
 
@@ -101,14 +102,11 @@ export default class JournalEntries extends Component {
   }
 
   componentDidMount() {
-    this.getJournalEntries();
+    this.getJournalEntries(); // BAD PRACTICE 
   }
 
   componentDidUpdate() {
-    if (this.state.error || this.state.isLoading) {
-      return;
-    }
-    this.getJournalEntries();
+
   }
 
   render() {

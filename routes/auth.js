@@ -3,7 +3,8 @@ const jwt = require("express-jwt");
 const getTokenFromCookies = (req) => {
   const userJSON = req.cookies.user;
   // decode the token from the cookie
-  console.log(userJSON);
+  console.log(userJSON); // TO-DO -> remove this line
+  // When on JournalEntries, getTokenFromCookies is called infinite times, probably due to the get request to /journalEntries
   if (userJSON) {
     return userJSON.token;
   }
@@ -18,6 +19,7 @@ const auth = {
     algorithms: ["HS256"],
   }),
   optional: jwt.expressjwt({
+
     secret: "secret",
     userProperty: "payload",
     getToken: getTokenFromCookies,
