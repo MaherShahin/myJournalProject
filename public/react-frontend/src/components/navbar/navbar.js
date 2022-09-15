@@ -1,8 +1,6 @@
-import NavbarCollapse from "react-bootstrap/esm/NavbarCollapse";
 import React, { Component } from "react";
-import { Navbar, Nav, NavDropdown } from "react-bootstrap";
+import { Nav, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { Navigate } from "react-router-dom";
 
 export default class customNavbar extends Component {
 

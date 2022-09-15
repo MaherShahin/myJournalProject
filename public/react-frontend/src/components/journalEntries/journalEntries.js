@@ -1,16 +1,10 @@
 import React, { Component } from "react";
-import { Button, Nav } from "react-bootstrap";
 import "../../styles.css";
-import JournalEntry from "../journalEntry/journalEntry";
-import Navbar from "../navbar/navbar";
-import { Card } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import JournalEntryModal from "../journalEntryModal/journalEntryModal";
-import { Modal } from "react-bootstrap";
-import Loading from "../loading/loading";
 import Error from "../error/error";
-import { HiOutlineTrash } from "react-icons/hi";
-import { HiOutlinePencil } from "react-icons/hi";
+import JournalEntry from "../journalEntry/journalEntry";
+import JournalEntryModal from "../journalEntryModal/journalEntryModal";
+import Loading from "../loading/loading";
+import Navbar from "../navbar/navbar";
 import NewEntryButton from "../newEntryButton/newEntryButton";
 import NewEntryModal from "../newEntryModal/newEntryModal";
 
