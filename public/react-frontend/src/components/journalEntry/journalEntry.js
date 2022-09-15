@@ -13,7 +13,7 @@ export default class JournalEntry extends Component {
     return (
       <Card
         key={this.props.entry._id}
-        style={{ width: "25rem", height: "25rem", opacity: "0.8" }}
+        style={{ width: "25rem", height: "25rem", opacity: "0.8"  ,backgroundColor:"#212529" }}
         className="m-3"
         onClick={() => this.props.handleView(this.props.entry)}
         onMouseEnter={(e) => {

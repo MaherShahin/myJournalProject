@@ -16,7 +16,7 @@ export default class newEntryModal extends Component {
   
   render() {
     return (
-      <Modal show={this.props.newEntry} onHide={this.props.closeModal} >
+      <Modal show={this.props.newEntry} onHide={this.props.closeModal} style={{color:"black"}} >
         <Modal.Header closeButton>
           <Modal.Title>New Entry</Modal.Title>
         </Modal.Header>
@@ -43,10 +43,10 @@ export default class newEntryModal extends Component {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => this.props.closeModal()}>
-            Close
+            Close without Submitting
           </Button>
           <Button
-            variant="primary"
+            className="btn btn-dark"
             onClick={() => this.props.handleNewEntrySubmit(this.state.entry)}
           >
             Submit

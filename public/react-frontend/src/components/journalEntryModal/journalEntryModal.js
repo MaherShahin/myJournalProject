@@ -85,6 +85,7 @@ export default class JournalEntryModal extends Component {
             </Modal.Body>
             <Modal.Footer>
               <Button
+                className="btn btn-dark"
                 onClick={() => {
                   this.props.closeModal();
                   this.setState({ isEditing: false });
@@ -93,6 +94,8 @@ export default class JournalEntryModal extends Component {
                 Close without saving
               </Button>
               <Button
+                              className="btn btn-dark"
+
                 onClick={() => {
                   this.props.closeModal();
                   this.setState({ isEditing: false });
@@ -109,7 +112,7 @@ export default class JournalEntryModal extends Component {
       return (
         <div>
           <Modal
-            className="fade modal-90w"
+            className="modal-90w"
             show={this.props.show}
             onHide={() => {
               setTimeout(() => {
@@ -130,7 +133,7 @@ export default class JournalEntryModal extends Component {
             </Modal.Header>
             <Modal.Body>{this.state.entry.content}</Modal.Body>
             <Modal.Footer>
-              <Button onClick={this.props.closeModal}> Close</Button>
+              <Button className="btn-dark" onClick={this.props.closeModal}> Close</Button>
             </Modal.Footer>
           </Modal>
         </div>
