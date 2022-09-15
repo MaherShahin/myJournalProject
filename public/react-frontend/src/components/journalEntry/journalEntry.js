@@ -32,11 +32,22 @@ export default class JournalEntry extends Component {
             {this.props.entry.title}
             <Button
               as="div"
-              variant="danger"
-              style={{ "margin-right": "-15px", "margin-top": "-5px" }}
+              variant="secondary"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = "red";
+                e.currentTarget.style.cursor = "pointer";
+                e.currentTarget.style.transform = "scale(1.1)";
+                e.currentTarget.style.transition = "0.5s";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = "transparent";
+                e.currentTarget.style.transform = "scale(1)";
+                e.currentTarget.style.transition = "0.5s";
+              }}
+              style={{ "margin-right": "-15px", "margin-top": "-5px", backgroundColor:"transparent" }}
               onClick={() => this.props.handleDelete(this.props.entry)}
             >
-              <HiOutlineTrash />
+              <HiOutlineTrash size={25} sty />
             </Button>
           </Card.Title>
           <Card.Subtitle className="mb-2 text-muted">
