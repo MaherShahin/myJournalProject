@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run react-frontend && npm run express-server", 
+    "start": " npm run express-server  && npm run react-frontend ", 
     "express-server": "node index.js",
     "react-frontend": "cd public && cd react-frontend && npm i && npm run start",
     "test": "echo \"Error: no test specified\" && exit 1"
