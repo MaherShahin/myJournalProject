@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run react-frontend && npm run express-server", 
     "express-server": "node index.js",
-    "react-frontend": "cd public && cd react-frontend && npm run start",
+    "react-frontend": "cd public && cd react-frontend && npm i && npm run start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
