@@ -31,14 +31,21 @@ app.use(router);
 
 app.use(express.json());
 
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, 'public/index.html'));
-});
+
 
 app.listen(process.env.PORT, () => {
     console.log('Server is running on port ' + process.env.PORT);
 })
 
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/index.html'));
+});
 
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, "public/build")));
+    app.get("*", (req, res) => {
+      res.sendfile(path.join((__dirname = "public/build/index.html")));
+    });
+  }
 
 // If DB is not working, check that your IP is whitelisted from MongoDB or not 

@@ -4,10 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": " npm run express-server  && (npm run react-frontend) ", 
-    "express-server": "node index.js",
-    "react-frontend": "cd public && cd react-frontend && npm i && npm run start",
-    "test": "echo \"Error: no test specified\" && exit 1"
+
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "client-install": "npm install --prefix client",
+    "start": "node index.js",
+    "server": "nodemon index.js",
+    "client": "npm start --prefix public/react-frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild":      "NPM_CONFIG_PRODUCTION=false npm install --prefix client        && npm run build --prefix client"  
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +19,7 @@
     "body-parser": "^1.20.0",
     "bootstrap": "^5.2.1",
     "bootstrap-icons": "^1.9.1",
+    "concurrently": "^7.4.0",
     "connect-ensure-login": "^0.1.1",
     "cookie-parser": "^1.4.6",
     "cookie-session": "^2.0.0",
