@@ -164,4 +164,9 @@ router.post("/editEntry/:id", auth.required, async (req, res, next) => {
 });
 //Refactored
 
+router.get("/hi", auth.optional, (req, res) => {
+  res.status(200).json({ message: "Hello" });
+}); // to test if the server is running
+
+
 module.exports = router;
