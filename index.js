@@ -13,6 +13,7 @@ require('./model/model');
 require('./config/passport');
 
 app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -30,8 +31,14 @@ app.use(router);
 
 app.use(express.json());
 
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/index.html'));
+});
+
 app.listen(process.env.PORT, () => {
     console.log('Server is running on port ' + process.env.PORT);
 })
+
+
 
 // If DB is not working, check that your IP is whitelisted from MongoDB or not 
