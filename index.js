@@ -14,7 +14,7 @@ require('./config/passport');
 
 app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public/react-frontend')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
