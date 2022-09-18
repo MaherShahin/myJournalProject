@@ -9,8 +9,8 @@ import NewEntryButton from "../newEntryButton/newEntryButton";
 import NewEntryModal from "../newEntryModal/newEntryModal";
 
 export default class JournalEntries extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       entries: [],
       isViewingEntry: false,

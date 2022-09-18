@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 export default class Error extends React.Component {
-    render(props) {
+    render() {
         return (
             <div className="text-center my-5" style={{color:"white"}} >
                 <h1 >An error has occured</h1>

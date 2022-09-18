@@ -6,8 +6,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./journalEntryModal.css";
 
 export default class JournalEntryModal extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       show: false,
       entry: {
